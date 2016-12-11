@@ -58,11 +58,11 @@ export default class Server {
   dispatch(req) {
     let method = this.methods[req.namespace][req.method]
     if(req.callbackId === null) {
-      method(req)
+      method(...req.params)
     } else {
       autorun( () => {
         if(!req.connection.listening) return
-        method(req)
+        method(...req.params, req.send)
       })
     }
   }

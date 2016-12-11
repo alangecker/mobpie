@@ -2,11 +2,11 @@
  _flexible api layer for creating backends with MobX support_
 
 ### Important!
-consider it more as an *concept/draft*, not as a working reliable module. Depending on the interest/feedback I would perhaps work on it.
+consider it more as an concept/draft, not as a working reliable module. Depending on the interest/feedback I would perhaps work on it.
 
 ### Features
-- Provides methods on the frontend
-which get called on observable changes
+- Provides backend methods on the frontend
+which get automatically recalled on observable changes
 - Flexible design to allow different uses
 
 ## Example
@@ -22,12 +22,11 @@ let text = observable({
 
 
 backend.register('demo', {
-  getText(req) {
-    req.send(null, text.welcome)
+  getText(cb) {
+    cb(text.welcome)
   },
-  setText(req) {
-    text.welcome = req.params[0]
-    console.log(`set to '${req.params[0]}'`);
+  setText(value) {
+    text.welcome = value // <- magic happens here
   }
 })
 ```
@@ -36,7 +35,7 @@ backend.register('demo', {
 ```js
 const api = new Mobpie
 api.connect('http://localhost:5000', (err) => {
-  api.demo.getText( (err, res) => {
+  api.demo.getText( (res) => {
     console.log('current text: '+res)
   })
   api.demo.setText('Hello yunity')
@@ -49,12 +48,10 @@ api.connect('http://localhost:5000', (err) => {
 
 #### `new MobpieBackend(http.Server)`
 #### `backend.register(namespace, methods)`
-methods get always called with a `Request` instance.
-#### `req.send(...args)`
-arguments get passed to the frontend callback
+methods get always binded to `Request` instance.
+
 
 ### Frontend
 #### `new Mobpie()`
 #### `api.connect(url, callback)`
 #### `api.namespace.method(...args, callback)`
-arguments get passed to `req.params` on the backend
