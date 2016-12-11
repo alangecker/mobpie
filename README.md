@@ -2,14 +2,12 @@
  _flexible api layer for creating backends with MobX support_
 
 ### Important!
-consider it more as an *concept/draft*, not as a working reliable module. can change anytime. don't use in production!
-
-
+consider it more as an *concept/draft*, not as a working reliable module. Depending on the interest/feedback I would perhaps work on it.
 
 ### Features
-- provides methods on the frontend which get called when mobx observable changes
--
-
+- Provides methods on the frontend
+which get called on observable changes
+- Flexible design to allow different uses
 
 ## Example
 Full code under [alangecker/mobpie-example](https://github.com/alangecker/mobpie-example)
@@ -17,6 +15,7 @@ Full code under [alangecker/mobpie-example](https://github.com/alangecker/mobpie
 ```js
 const MobpieBackend = require('mobpie')
 const backend = new MobpieBackend(httpServer)
+
 let text = observable({
   welcome: 'Hello World'
 })
